@@ -4,10 +4,9 @@ load Rails.root + "db/seeds.rb"
 RSpec.feature "LandingPages", type: :feature do
   context "Landing Page" do
     Steps "to visiting the website" do
-      Given "I am on the landing page" do
+      Given "I am visiting the site" do
         visit '/'
-        save_and_open_page
-        
+        expect()
       end
 
       Then "I can see a list of apartments" do

@@ -1,5 +1,6 @@
 class ApartmentsController < ApplicationController
   before_action :set_apartment, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource except: :index #no need to authorize resource if only viewing index page
 
   # GET /apartments
   # GET /apartments.json
