@@ -36,7 +36,7 @@
               <li><%= link_to 'Home', root_path %></li>
               <li><%= link_to 'Apartments', apartments_path %></li>
               <% if current_user %>
-              <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
+                <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
               <% end %>
             </ul>
           </div>
@@ -45,6 +45,12 @@
 
       <p class="notice"><%= notice %></p>
       <p class="alert"><%= alert %></p>
+      <p>
+        <%= if !current_user.nil?
+              current_user.email
+            end
+        %>
+      </p>
       <%= yield %>
     </div>
   </body>
