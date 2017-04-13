@@ -7,6 +7,7 @@ class ApartmentsController < ApplicationController
   # GET /apartments.json
   def index
     @apartments = Apartment.all
+    @ability = Ability.new(current_user) #whomever is logged in right now, create an ability for them (use this ability in the view to check and show what is needed or not needed)
   end
 
   # GET /apartments/1

@@ -14,10 +14,10 @@ class User < ApplicationRecord
     end
   end
 
-  after_create :assign_role
+  after_create :assign_role #each time a new user is created, run this method
 
   def assign_role
-    add_role(:renter)
+    add_role(:renter) #give that newly created user the role of a renter (lowest level)
   end
 
 end
