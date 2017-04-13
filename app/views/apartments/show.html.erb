@@ -45,6 +45,7 @@
   <%= @apartment.hours_to_contact %>
 </p>
 
-
-<%= link_to 'Edit', edit_apartment_path(@apartment) %> |
-<%= link_to 'Back', apartments_path %>
+<% if current_user.id == @apartment.user_id %>
+  <%= link_to 'Edit', edit_apartment_path(@apartment) %> |
+  <%= link_to 'Back', apartments_path %>
+<% end %>
