@@ -5,6 +5,7 @@ class ApartmentsController < ApplicationController
   # GET /apartments
   # GET /apartments.json
   def index
+    @ability = Ability.new(current_user)
     @apartments = Apartment.all
   end
 
@@ -15,7 +16,6 @@ class ApartmentsController < ApplicationController
 
   # GET /apartments/new
   def new
-    @apartment = Apartment.new
   end
 
   # GET /apartments/1/edit
@@ -43,12 +43,15 @@ class ApartmentsController < ApplicationController
   def update
     respond_to do |format|
       if @apartment.update(apartment_params)
-        format.html { redirect_to @apartment, notice: 'Apartment was successfully updated.' }
+        if @apartment.save
+          format.html {
+            redirect_to '/', notice: 'You do not have permission to access this page!' }
         format.json { render :show, status: :ok, location: @apartment }
       else
         format.html { render :edit }
         format.json { render json: @apartment.errors, status: :unprocessable_entity }
       end
+    end
     end
   end
 

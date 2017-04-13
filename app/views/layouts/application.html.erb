@@ -34,7 +34,6 @@
           <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav">
               <li><%= link_to 'Home', root_path %></li>
-              <li><%= link_to 'Apartments', apartments_path %></li>
               <% if !current_user %>
                 <li><%= link_to 'Login', new_user_session_path %></li>
               <% elsif current_user %>
@@ -46,12 +45,15 @@
       </nav> <!-- END NAVBAR -->
 
     <div class="row">
+
       <div class="col-md-6">
         <p><%= flash[:notice] %></p>
       </div>
+      
       <div class="col-md-6">
         <p><%= flash[:alert] %></p>
       </div>
+
     </div>
 
         <%= if !current_user.nil?

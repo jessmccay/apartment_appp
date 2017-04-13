@@ -10,9 +10,8 @@ class User < ApplicationRecord
   after_create :assign_role
 
    def assign_role
-     add_role(:default_renter) #whenever a new user is created, automatically assing them the 'default role'
+     add_role(:default_renter) #whenever a new user is created, automatically assing them the 'default_renter'
    end
-
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -20,6 +19,5 @@ class User < ApplicationRecord
       user.password = Devise.friendly_token[0,20]
     end
   end
-
 
 end

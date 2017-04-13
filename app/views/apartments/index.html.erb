@@ -1,6 +1,9 @@
-<%= link_to 'New Apartment', new_apartment_path %>
 
-<h1>Apartments</h1>
+<% if user_signed_in? %>
+  <%= link_to 'New Apartment', new_apartment_path %>
+<% end %>
+
+<h1>View all apartments</h1>
 
 <% @apartments.each do |apartment| %>
 
