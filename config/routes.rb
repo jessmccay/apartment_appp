@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   devise_for :users, :controller => { sessions: 'users/sessions',:omniauth_callbacks => "users/omnniauth_callbacks" }
 
   resources :apartments
