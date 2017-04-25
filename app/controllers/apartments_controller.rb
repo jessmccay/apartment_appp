@@ -1,6 +1,6 @@
 class ApartmentsController < ApplicationController
   before_action :set_apartment, only: [:show, :edit, :update, :destroy]
-  load_and_authorize_resource except: :index #no need to authorize resource if only viewing index page .
+  load_and_authorize_resource except: [:index, :show] #no need to authorize resource if only viewing index page .
 
   # GET /apartments
   # GET /apartments.json
@@ -12,6 +12,7 @@ class ApartmentsController < ApplicationController
   # GET /apartments/1
   # GET /apartments/1.json
   def show
+    
   end
 
   # GET /apartments/new
@@ -43,7 +44,6 @@ class ApartmentsController < ApplicationController
   def update
     respond_to do |format|
       if @apartment.update(apartment_params)
-        if @apartment.save
           format.html {
             redirect_to '/', notice: 'You do not have permission to access this page!' }
         format.json { render :show, status: :ok, location: @apartment }
@@ -51,7 +51,6 @@ class ApartmentsController < ApplicationController
         format.html { render :edit }
         format.json { render json: @apartment.errors, status: :unprocessable_entity }
       end
-    end
     end
   end
 

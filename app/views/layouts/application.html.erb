@@ -49,7 +49,7 @@
       <div class="col-md-6">
         <p><%= flash[:notice] %></p>
       </div>
-      
+
       <div class="col-md-6">
         <p><%= flash[:alert] %></p>
       </div>
@@ -57,7 +57,7 @@
     </div>
 
         <%= if !current_user.nil?
-          current_user.email + ' (' + current_user.roles.pluck(:name).join(",") + ')'
+          current_user.email + ' (' + current_user.roles.pluck(:name).join(", ") + ')'
             end
             #pluck grabs out from every element of the array the NAME property value of that instance.
         %>

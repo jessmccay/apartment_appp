@@ -9,6 +9,7 @@ require 'rspec/rails'
 
 require 'capybara/rails'      # add this line
 require 'rspec/example_steps' # add this line
+require 'support/database_cleaner'
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -29,31 +30,38 @@ require 'rspec/example_steps' # add this line
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  # If you're not using ActiveRecord, or you'd prefer not to run
+   # each of your examples within a transaction, remove the following
+   # line or assign false instead of true.
+   config.use_transactional_fixtures = false
 
-  # If you're not using ActiveRecord, or you'd prefer not to run each of your
-  # examples within a transaction, remove the following line or assign false
-  # instead of true.
-  config.use_transactional_fixtures = true
+   # Clean up and initialize database before
+   # running test exmaples
+   config.before(:suite) do
+     # Truncate database to clean up garbage from
+     # interrupted or badly written examples
+     DatabaseCleaner.clean_with(:truncation)
 
-  # RSpec Rails can automatically mix in different behaviours to your tests
-  # based on their file location, for example enabling you to call `get` and
-  # `post` in specs under `spec/controllers`.
-  #
-  # You can disable this behaviour by removing the line below, and instead
-  # explicitly tag your specs with their type, e.g.:
-  #
-  #     RSpec.describe UsersController, :type => :controller do
-  #       # ...
-  #     end
-  #
-  # The different available types are documented in the features, such as in
-  # https://relishapp.com/rspec/rspec-rails/docs
-  config.infer_spec_type_from_file_location!
+     # Seed dataase. Use it only for essential
+     # to run application data.
+     load "#{Rails.root}/db/seeds.rb"
+   end
 
-  # Filter lines from Rails gems in backtraces.
-  config.filter_rails_from_backtrace!
-  # arbitrary gems may also be filtered via:
-  # config.filter_gems_from_backtrace("gem name")
+   config.around(:each) do |example|
+     # Use really fast transaction strategy for all
+     # examples except `js: true` capybara specs
+     DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction
+
+     # Start transaction
+     DatabaseCleaner.cleaning do
+
+       # Run example
+       example.run
+     end
+
+     load "#{Rails.root}/db/seeds.rb" if example.metadata[:js]
+
+     # Clear session data
+     Capybara.reset_sessions!
+   end
 end

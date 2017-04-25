@@ -34,6 +34,7 @@ gem 'devise'
 gem 'omniauth-twitter'
 gem 'cancancan'
 gem 'rolify'
+gem 'database_cleaner'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
