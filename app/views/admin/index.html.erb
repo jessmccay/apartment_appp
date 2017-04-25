@@ -1,0 +1,23 @@
+<h1>Users</h1>
+<table>
+  <thead>
+    <thead>
+      <tr>
+        <th>Email</th><th>Role</th>
+      </tr>
+    </thead>
+  </thead>
+  <tbody>
+  <% @users.each do |user| %>
+    <tr>
+      <th><%= user.email %></th>
+      <td><%= user.roles.try(:pluck, :name).try(:join, (', ')) %></td> <!-- show all roles the user has-->
+      <td>
+        <%= form_tag("/admin/" + user.id.to_s + "?role=teacher", method: :PUT) do %>
+          <input type="submit" value="Make Admin"/>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

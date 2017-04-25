@@ -1,5 +1,4 @@
 require 'rails_helper'
-load "db/seeds.rb"
 
 RSpec.feature "LandingPages", type: :feature do
   context "Landing Page" do
@@ -10,6 +9,7 @@ RSpec.feature "LandingPages", type: :feature do
 
       Then "I can see all apartments" do
         expect(page).to have_content "View all apartments"
+        expect(page).to have_content "Bushwick Beauty"
         expect(page).to_not have_content "Create Apartment"
       end
 

@@ -10,6 +10,7 @@ RSpec.feature "UsersRoles", type: :feature do
 
       Then "I can see all apartments" do
         expect(page).to have_content "View all apartments"
+        expect(page).to have_content "Bushwick Beauty"
         expect(page).to_not have_content "Create Apartment"
       end
 
@@ -57,8 +58,35 @@ RSpec.feature "UsersRoles", type: :feature do
 
       And "I cannot delete or edit what I have not created"  do
         expect(page).to_not have_content("Edit")
-        expect(page).to_not have_content("Destroy")git 
+        expect(page).to_not have_content("Destroy")
+      end
+
+    end #end steps
+  end #end context
+
+  context "Admin Role" do
+    Steps "to carrying out admin duties" do
+      admin = User.new(email: "mrin@mrin.com", password: "password")
+      admin.save
+      admin.add_role :admin
+
+      Given "I am logged in as an admin" do
+        visit '/'
+        click_on "Login"
+        fill_in "Email", with: "mrin@mrin.com"
+        fill_in "Password", with: "password"
+        click_on "Log in"
+      end
+
+      Then "I can visit the admin page" do
+        visit '/admin/index'
+        expect(page).to have_content("Role")
+        expect(page).to have_content("Users")
+      end
+
+      And "I am able to make someone else and admin" do
+        click_on('Make Admin', match: :first)
       end
     end
   end
-end
+end #end rspec
